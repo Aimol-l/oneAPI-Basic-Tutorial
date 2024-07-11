@@ -23,18 +23,31 @@ then：
 
 output:
 >  intel-oneapi-common
+>  
 >  intel-oneapi-compiler-dpcpp-cpp-runtime
+>  
 >  intel-oneapi-compiler-dpcpp-cpp-runtime-libs
+>  
 >  intel-oneapi-compiler-shared
+>  
 >  intel-oneapi-compiler-shared-runtime
+>  
 >  intel-oneapi-compiler-shared-runtime-libs
+>  
 >  intel-oneapi-dev-utilities
+>  
 >  intel-oneapi-dpcpp-cpp
+>  
 >  intel-oneapi-dpcpp-debugger
+>  
 >  intel-oneapi-mkl 
+>  
 >  intel-oneapi-mkl-sycl
+>  
 >  intel-oneapi-openmp
+>  
 >  intel-oneapi-tbb 
+>  
 >  intel-oneapi-tcm
 
 ### 配置oneAPI环境变量 Configuring oneAPI Environment Variables 
@@ -82,6 +95,11 @@ For Nvidia user,need instal latest driver and CUDA 12.x
 + Choose a Version ：Your Intel(R) oneAPI DPC++/C++ compiler version
 + Choose a CUDA® Version ： 12
 + Choose a Platform：Linux
+
+```sh
+chmod +x oneapi-for-nvidia-gpus-2024.1.0-cuda-12.0-linux.sh
+sudo ./oneapi-for-nvidia-gpus-2024.1.0-cuda-12.0-linux.sh
+```
 
 运行 run 
 > sycl-ls 
