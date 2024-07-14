@@ -1,0 +1,87 @@
+{
+	"kind" : "toolchains",
+	"toolchains" : 
+	[
+		{
+			"compiler" : 
+			{
+				"id" : "IntelLLVM",
+				"implicit" : 
+				{
+					"includeDirectories" : 
+					[
+						"/opt/intel/oneapi/compiler/2024.1/include/sycl",
+						"/opt/intel/oneapi/compiler/2024.1/include/sycl/stl_wrappers",
+						"/opt/intel/oneapi/compiler/2024.1/include",
+						"/opt/intel/oneapi/compiler/2024.1/opt/compiler/include",
+						"/usr/include/c++/14.1.1",
+						"/usr/include/c++/14.1.1/x86_64-pc-linux-gnu",
+						"/usr/include/c++/14.1.1/backward",
+						"/opt/intel/oneapi/compiler/2024.1/lib/clang/18/include",
+						"/usr/local/include",
+						"/usr/include",
+						"/opt/cuda/include"
+					],
+					"linkDirectories" : 
+					[
+						"/opt/intel/oneapi/compiler/2024.1/lib",
+						"/opt/intel/oneapi/compiler/2024.1/lib/clang/18/lib/x86_64-unknown-linux-gnu",
+						"/usr/lib64/gcc/x86_64-pc-linux-gnu/14.1.1",
+						"/usr/lib64",
+						"/lib64",
+						"/opt/intel/oneapi/compiler/2024.1/opt/compiler/lib",
+						"/lib",
+						"/usr/lib"
+					],
+					"linkFrameworkDirectories" : [],
+					"linkLibraries" : 
+					[
+						"svml",
+						"irng",
+						"stdc++",
+						"imf",
+						"m",
+						"gcc_s",
+						"gcc",
+						"irc",
+						"dl",
+						"gcc_s",
+						"gcc",
+						"sycl",
+						"sycl-devicelib-host",
+						"c",
+						"gcc_s",
+						"gcc",
+						"irc_s"
+					]
+				},
+				"path" : "/opt/intel/oneapi/compiler/latest/bin/icpx",
+				"version" : "2024.1.0"
+			},
+			"language" : "CXX",
+			"sourceFileExtensions" : 
+			[
+				"C",
+				"M",
+				"c++",
+				"cc",
+				"cpp",
+				"cxx",
+				"m",
+				"mm",
+				"mpp",
+				"CPP",
+				"ixx",
+				"cppm",
+				"ccm",
+				"cxxm",
+				"c++m"
+			]
+		}
+	],
+	"version" : 
+	{
+		"major" : 1,
+		"minor" : 0
+	}
+}
