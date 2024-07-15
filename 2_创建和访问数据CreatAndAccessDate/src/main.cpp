@@ -14,7 +14,7 @@ void implicit_usm(std::vector<T>& vec1,std::vector<T>& vec2){
     std::copy(vec1.begin(), vec1.end(), usm_data1);
     std::copy(vec2.begin(), vec2.end(), usm_data2);
 
-    // 执行向量加法
+    // vector add
     queue.submit([&](sycl::handler &h) {
         h.parallel_for(sycl::range<1>(SIZE), [=](sycl::id<1> index) {
             usm_data1[index]  = usm_data1[index] + usm_data2[index];
@@ -23,7 +23,7 @@ void implicit_usm(std::vector<T>& vec1,std::vector<T>& vec2){
 
     for(size_t i =0;i<SIZE;++i) std::cout<<usm_data1[i]<<",";
 
-    // 释放共享内存
+    // free shared memory
     sycl::free(usm_data1,queue);
     sycl::free(usm_data2,queue);
 }
@@ -39,19 +39,19 @@ void explicit_usm(std::vector<T>& vec1,std::vector<T>& vec2){
     queue.memcpy(usm_data1, vec1.data(), vec1.size() * sizeof(T)).wait();// 将数据从host复制到device
     queue.memcpy(usm_data2, vec2.data(), vec2.size() * sizeof(T)).wait();
 
-    // 执行向量加法
+    // vector add
     queue.submit([&](sycl::handler &h) {
         h.parallel_for(sycl::range<1>(vec1.size()), [=](sycl::id<1> index) {
             usm_data1[index] += usm_data2[index];
         });
-    }).wait(); // 等待计算完成
+    }).wait();
 
     std::vector<T> sum_(SIZE);
     queue.memcpy(sum_.data(), usm_data1, sum_.size() * sizeof(T)).wait();// 将结果从device复制到host
 
     for(size_t i =0;i<SIZE;++i) std::cout<<sum_[i]<<",";
     
-    // 释放设备内存
+    // ffree device memory
     sycl::free(usm_data1, queue);
     sycl::free(usm_data2, queue);
 }
