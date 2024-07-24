@@ -26,3 +26,7 @@ auto init_queue(){
     return queue;
 }
 
+void matrix_add(sycl::buffer<float,2>& mat1,sycl::buffer<float,2>& mat2){
+
+
+}
