@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/aimol/Documents/Obsidian Vault/oneAPI-Basic-Tutorial/1_\u5f00\u59cb\u5165\u95e8GettingStarted/build"
+			"value" : "/home/admin/\u6587\u6863/oneAPI/oneAPI-Basic-Tutorial/1_\u5f00\u59cb\u5165\u95e8GettingStarted/build"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -159,7 +159,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/bin/llvm-ar"
+			"value" : "CMAKE_CXX_COMPILER_AR-NOTFOUND"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER_RANLIB",
@@ -175,7 +175,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/bin/llvm-ranlib"
+			"value" : "CMAKE_CXX_COMPILER_RANLIB-NOTFOUND"
 		},
 		{
 			"name" : "CMAKE_CXX_FLAGS",
@@ -415,7 +415,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/aimol/Documents/Obsidian Vault/oneAPI-Basic-Tutorial/1_\u5f00\u59cb\u5165\u95e8GettingStarted/build/CMakeFiles/pkgRedirects"
+			"value" : "/home/admin/\u6587\u6863/oneAPI/oneAPI-Basic-Tutorial/1_\u5f00\u59cb\u5165\u95e8GettingStarted/build/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -475,7 +475,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/aimol/Documents/Obsidian Vault/oneAPI-Basic-Tutorial/1_\u5f00\u59cb\u5165\u95e8GettingStarted"
+			"value" : "/home/admin/\u6587\u6863/oneAPI/oneAPI-Basic-Tutorial/1_\u5f00\u59cb\u5165\u95e8GettingStarted"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -1155,7 +1155,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/aimol/Documents/Obsidian Vault/oneAPI-Basic-Tutorial/1_\u5f00\u59cb\u5165\u95e8GettingStarted/build"
+			"value" : "/home/admin/\u6587\u6863/oneAPI/oneAPI-Basic-Tutorial/1_\u5f00\u59cb\u5165\u95e8GettingStarted/build"
 		},
 		{
 			"name" : "main_IS_TOP_LEVEL",
@@ -1179,7 +1179,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/aimol/Documents/Obsidian Vault/oneAPI-Basic-Tutorial/1_\u5f00\u59cb\u5165\u95e8GettingStarted"
+			"value" : "/home/admin/\u6587\u6863/oneAPI/oneAPI-Basic-Tutorial/1_\u5f00\u59cb\u5165\u95e8GettingStarted"
 		}
 	],
 	"kind" : "cache",

@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "/home/aimol/Documents/Obsidian Vault/oneAPI-Basic-Tutorial/1_\u5f00\u59cb\u5165\u95e8GettingStarted/bin/main"
+			"path" : "/home/admin/\u6587\u6863/oneAPI/oneAPI-Basic-Tutorial/1_\u5f00\u59cb\u5165\u95e8GettingStarted/bin/main"
 		}
 	],
 	"backtrace" : 1,
@@ -11,12 +11,16 @@
 		"commands" : 
 		[
 			"add_executable",
+			"target_link_options",
+			"add_sycl_to_target",
 			"add_compile_definitions",
-			"include_directories"
+			"include_directories",
+			"set_source_files_properties"
 		],
 		"files" : 
 		[
-			"CMakeLists.txt"
+			"CMakeLists.txt",
+			"/opt/intel/oneapi/compiler/latest/lib/cmake/IntelSYCL/IntelSYCLConfig.cmake"
 		],
 		"nodes" : 
 		[
@@ -26,20 +30,44 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 28,
-				"parent" : 0
-			},
-			{
-				"command" : 1,
-				"file" : 0,
-				"line" : 9,
+				"line" : 31,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 25,
+				"line" : 32,
 				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 365,
+				"parent" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 9,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 28,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 1,
+				"line" : 359,
+				"parent" : 2
+			},
+			{
+				"command" : 5,
+				"file" : 1,
+				"line" : 360,
+				"parent" : 2
 			}
 		]
 	},
@@ -50,20 +78,28 @@
 			[
 				{
 					"fragment" : " -fsycl -Wall -fsycl-targets=nvptx64-nvidia-cuda"
+				},
+				{
+					"backtrace" : 6,
+					"fragment" : "-fsycl"
 				}
 			],
 			"defines" : 
 			[
 				{
-					"backtrace" : 2,
+					"backtrace" : 4,
 					"define" : "ACC_DEVIDE_GPU"
 				}
 			],
 			"includes" : 
 			[
 				{
-					"backtrace" : 3,
-					"path" : "/home/aimol/Documents/Obsidian Vault/oneAPI-Basic-Tutorial/1_\u5f00\u59cb\u5165\u95e8GettingStarted/include"
+					"backtrace" : 7,
+					"path" : "/opt/intel/oneapi/compiler/2024.1/include"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/home/admin/\u6587\u6863/oneAPI/oneAPI-Basic-Tutorial/1_\u5f00\u59cb\u5165\u95e8GettingStarted/include"
 				}
 			],
 			"language" : "CXX",
@@ -84,6 +120,11 @@
 			},
 			{
 				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "-fsycl",
 				"role" : "flags"
 			}
 		],

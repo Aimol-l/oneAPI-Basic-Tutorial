@@ -28,5 +28,6 @@ include_directories(${PROJECT_DIR}/include)
 include_directories(${IntelSYCL_INCLUDE_DIRS})
 
 add_executable(${CMAKE_PROJECT_NAME} ${SRC_FILES})
+add_sycl_to_target(TARGET ${CMAKE_PROJECT_NAME} SOURCES ${SRC_FILES})
 
 target_link_libraries(${CMAKE_PROJECT_NAME} ${IntelSYCL_LIBRARIES})

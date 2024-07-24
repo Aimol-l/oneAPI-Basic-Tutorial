@@ -6,23 +6,18 @@ static constexpr size_t SIZE = 50;
 template<typename T>
 void implicit_usm(std::vector<T>& vec1,std::vector<T>& vec2){
     if(vec1.size() != vec2.size() || vec1.data() == vec2.data()) return;
-
     auto queue = init_queue();
     T* usm_data1 = sycl::malloc_shared<T>(vec1.size(),queue);
     T* usm_data2 = sycl::malloc_shared<T>(vec2.size(),queue);
-    
     std::copy(vec1.begin(), vec1.end(), usm_data1);
     std::copy(vec2.begin(), vec2.end(), usm_data2);
-
     // vector add
     queue.submit([&](sycl::handler &h) {
         h.parallel_for(sycl::range<1>(SIZE), [=](sycl::id<1> index) {
             usm_data1[index]  = usm_data1[index] + usm_data2[index];
         });
     }).wait();
-
     for(size_t i =0;i<SIZE;++i) std::cout<<usm_data1[i]<<",";
-
     // free shared memory
     sycl::free(usm_data1,queue);
     sycl::free(usm_data2,queue);

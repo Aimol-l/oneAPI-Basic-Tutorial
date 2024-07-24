@@ -55,7 +55,7 @@
 						"irc_s"
 					]
 				},
-				"path" : "icpx",
+				"path" : "/opt/intel/oneapi/compiler/latest/bin/icpx",
 				"version" : "2024.1.0"
 			},
 			"language" : "CXX",
