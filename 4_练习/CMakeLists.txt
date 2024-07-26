@@ -1,8 +1,7 @@
 cmake_minimum_required(VERSION 3.23)
 
-
-set(CMAKE_C_COMPILER icx)
-set(CMAKE_CXX_COMPILER icpx)
+set(CMAKE_C_COMPILER "/opt/intel/oneapi/compiler/2024.1/bin/icx")
+set(CMAKE_CXX_COMPILER /opt/intel/oneapi/compiler/2024.1/bin/icpx)
 
 # set(TARGET_DEVICE "CPU")
 if(TARGET_DEVICE MATCHES "GPU")
@@ -21,7 +20,6 @@ file(GLOB SRC_FILES
     "${PROJECT_SOURCE_DIR}/include/*.h"
     "${PROJECT_SOURCE_DIR}/src/*.cpp"
 )
-
 find_package(IntelSYCL REQUIRED)
 
 include_directories(${PROJECT_DIR}/include)
