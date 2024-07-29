@@ -6,9 +6,9 @@ set(CMAKE_CXX_COMPILER /opt/intel/oneapi/compiler/2024.1/bin/icpx)
 # set(TARGET_DEVICE "CPU")
 if(TARGET_DEVICE MATCHES "GPU")
     add_compile_definitions(ACC_DEVIDE_GPU)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsycl -Wall -fsycl-targets=nvptx64-nvidia-cuda")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsycl -Wall -fsycl-targets=nvptx64-nvidia-cuda -Wc++20-extensions")
 elseif(TARGET_DEVICE MATCHES "CPU")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsycl -Wall")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsycl -Wall -Wc++20-extensions")
     add_compile_definitions(ACC_DEVIDE_CPU)
 endif()
 
@@ -20,6 +20,7 @@ file(GLOB SRC_FILES
     "${PROJECT_SOURCE_DIR}/include/*.h"
     "${PROJECT_SOURCE_DIR}/src/*.cpp"
 )
+
 find_package(IntelSYCL REQUIRED)
 
 include_directories(${PROJECT_DIR}/include)

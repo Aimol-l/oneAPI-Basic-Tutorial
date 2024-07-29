@@ -3,7 +3,19 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include <CL/sycl.hpp>
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
+#include <array>
 
+template<typename ...U>
+void println(U... u){
+    int i =0;
+    auto printer = [&i]<typename Arg>(Arg arg){
+        if(sizeof...(U) == ++i) std::cout<<arg<<std::endl;
+        else std::cout<<arg<<" ";
+    };
+    (printer(u),...);
+}
 
 auto init_queue(){
 
@@ -13,7 +25,7 @@ auto init_queue(){
 #ifdef ACC_DEVIDE_CPU
     sycl::queue queue(sycl::cpu_selector_v); //手动指定CPU设备
 #endif
-    // sycl::queue queue(sycl::default_selector_v); //selected by dpc++ runtime
+    //sycl::queue queue(sycl::default_selector_v); //selected by dpc++ runtime
     auto sycl_device = queue.get_device();
     auto sycl_context = queue.get_context();
     std::cout<<"*************************device info************************"<<std::endl;
@@ -33,65 +45,81 @@ static constexpr size_t M = 50;
 static constexpr size_t N = 60;
 static constexpr size_t P = 70;
 
+void rgbrbg_to_rrggbb(unsigned char *image,int width, int height,int channels){
+    size_t length = width*height*channels;
+    std::vector<unsigned char> new_image(length);
+    for(int h = 0;h<height;h++){
+        for(int w = 0;w<width;w++){
+            auto r = image[h*width*channels+w*channels +0];
+            auto g = image[h*width*channels+w*channels +1];
+            auto b = image[h*width*channels+w*channels +2];
+            new_image[h*width + w] = r;
+            new_image[width*height + h*width + w] = g;
+            new_image[2*width*height + h*width + w] = b;
+        }
+    }
+    for(size_t i =0;i<width*height*channels;i++) image[i] = new_image[i];
+}
+void rrggbb_to_rgbrgb(unsigned char *image,int width, int height,int channels){
+    size_t length = width*height*channels;
+    std::vector<unsigned char> new_image(length);
+    for(int c =0;c<channels;c++){
+        for(int h=0;h<height;h++){
+            for(int w=0;w<width;w++){
+                auto color = image[c*width*height+h*width+w];
+                new_image[h*width*channels + w*channels +c] = color;
+            }
+        }
+    }
+    for(size_t i =0;i<width*height*channels;i++) image[i] = new_image[i];
+}
 void image_conv(std::string &filePath){
     auto queue = init_queue();
-    sycl::buffer<float,2> kernal(sycl::range(3, 3));
-    std::array<int,3*3> filter = {
-        0,1,0,
-        1,-4,1,
-        0,1,0
-    };
-    queue.submit([&](auto &h){
-        sycl::accessor k(kernal, h, sycl::write_only);
-        h.parallel_for(sycl::range(3, 3), [=](auto index) {
-            k[index] = filter[index];
-        });
-    }).wait();
-
+    int Laplacian[9] = {0,1,0,1,-4,1,0,1,0};
+    int Sobel_dx[9] = {-1,0,1,-2,0,2,-1,0,1};
+    int Sobel_dy[9] = {1,2,1,0,0,0,-1,-2,-1};
+    int LoG[9] = {1,1,1,1,-8,1,1,1,1};
+    int Hessian[9] = {1,0,0,0,1,0,0,0,1};
+    sycl::buffer<int,2> kernel(Hessian,sycl::range(3, 3)); // 模板参数是 数据类型和维度
     //加载图图片
     int width, height, channels;
-    unsigned char *image = stbi_load(filePath.c_str(), &width, &height, &channels, 0);
-    if(image == nullptr) return;
+    unsigned char *input_image = stbi_load(filePath.c_str(), &width, &height, &channels, 0);
+    println("channels=",channels,"width=",width,"height=",height);
+    if(input_image == nullptr) return;
+    rgbrbg_to_rrggbb(input_image,width,height,channels);
 
-    // 图像转换为浮点数并复制到SYCL缓冲区
-    std::vector<float> image_float(width * height * channels);
-    for (int i = 0; i < width * height * channels; ++i) {
-        image_float[i] = static_cast<float>(image[i]) / 255.0f;
-    }
-    sycl::buffer<float, 3> image_buffer(image_float.data(), sycl::range<3>(channels, height, width));
-
-    // 创建输出缓冲区
-    std::vector<float> output_float(width * height * channels);
-    sycl::buffer<float, 3> output_buffer(output_float.data(), sycl::range<3>(channels, height, width));
-
+    std::vector<unsigned char> output_image(channels*height*width);
+    sycl::buffer<unsigned char, 3> input_buffer(input_image, sycl::range<3>(channels, height, width));
+    sycl::buffer<unsigned char, 3> output_buffer(output_image.data(),sycl::range<3>(channels, height, width));
     //提交卷积
     queue.submit([&](auto &h) {
-        sycl::accessor img(image_buffer, h, sycl::read_only);
+        sycl::accessor input_img(input_buffer, h, sycl::read_only);
+        sycl::accessor out_img(output_buffer, h, sycl::write_only);
         sycl::accessor kern(kernel, h, sycl::read_only);
-
-        sycl::accessor out(output_buffer, h, sycl::write_only);
         h.parallel_for(sycl::range<3>(channels, height, width), [=](auto index) {
             int channel = index[0];
             int i = index[1];
             int j = index[2]; // i,j是当前像素的位置
-
-            float sum = 0.0f;
+            int sum = 0;
             for (int m = 0; m < 3; ++m) {
                 for (int n = 0; n < 3; ++n) {
                     int ii = i + m - 1; // 计算卷积核中心点的位置
                     int jj = j + n - 1;
                     // 边界处理
                     if (ii >= 0 && ii < height && jj >= 0 && jj < width) {
-                        sum += img[channel][ii][jj] * kern[m][n];
+                        sum += input_img[channel][ii][jj] * kern[m][n];
                     }
                 }
             }
-            out[index] = sum;
+            out_img[index] = std::min(std::max(sum, 0), 255);
         });
     }).wait();
-
-
-
+    // 保存图片
+    sycl::host_accessor result{output_buffer};
+    rrggbb_to_rgbrgb(output_image.data(),width,height,channels);
+    std::string output_file_path = "../assets/out.jpg"; 
+    stbi_write_jpg(output_file_path.c_str(), width, height, channels, output_image.data(), 100);
+    stbi_image_free(input_image);
 }
 void matrix_mul(){
     auto queue = init_queue();
